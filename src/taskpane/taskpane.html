@@ -1,0 +1,112 @@
+<!-- Copyright (c) Derek P. Moore. All rights reserved. -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blockbox Lockbox Task Pane Add-in</title>
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+    <!-- BSV JS -->
+    <script type="text/javascript" src="https://bico.media/b://3412b9beb4234acea4d3406c38af5e283cc91486abeddfa80fcb45842c1f99c2/"></script>
+    <!-- QR Code Generator -->
+    <script type="text/javascript" src="https://bico.media/b://3bd388b0097b3bde7c8c8f5d760e1c772f5e9a002a33a42bb3440a176df21415/"></script>
+
+    <!-- For more information on Office UI Fabric, visit https://developer.microsoft.com/fabric. -->
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.1/css/fabric.min.css"/>
+
+    <!-- Template styles -->
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+</head>
+<!--
+			<br />
+            <br />
+            
+            <button onclick="split()"></button>
+-->
+<body class="ms-font-m ms-welcome ms-Fabric">
+    <header class="ms-welcome__header ms-bgColor-neutralLighter">
+        <h1 id="title">Send funds</h1>
+        <div id="qrcode"></div>
+        <h5 id="address"></h5>
+        <ul class="ms-List ms-welcome__utxos">
+            <li>
+                <span class="ms-font-m">Ready: <span id="confirmed">?</span></span>
+            </li>
+            <li>
+                <span class="ms-font-m">Unconfirmed: <span id="unconfirmed">?</span></span>
+            </li>
+            <li>
+                <span class="ms-font-m">Unsplit: <span id="unsplit">?</span></span>
+            </li>
+        </ul>
+
+        <h4>Total Balance: <span id="balance"></span></h4>
+    </header>
+    <section id="sideload-msg" class="ms-welcome__main">
+        <h2 class="ms-font-xl">Please sideload your add-in to see app body.</h2>
+    </section>
+    <main id="app-body" class="ms-welcome__main" style="display: none;">
+        <div id="welcome-text">
+            <h2 class="ms-font-xl"> Fund this Lockbox to preserve your document! </h2>
+            <ul class="ms-List ms-welcome__features">
+                <li class="ms-ListItem">
+                    <i class="ms-Icon ms-Icon--Ribbon ms-font-xl"></i>
+                    <span class="ms-font-m">Authenticated on-chain persistence</span>
+                </li>
+                <li class="ms-ListItem">
+                    <i class="ms-Icon ms-Icon--Lock ms-font-xl"></i>
+                    <span class="ms-font-m">Secure storage and proof of ownership</span>
+                </li>
+                <li class="ms-ListItem">
+                    <i class="ms-Icon ms-Icon--Design ms-font-xl"></i>
+                    <span class="ms-font-m">Preserve your creation forever</span>
+                </li>
+            </ul>
+            <p class="ms-font-l">Send funds to this file's address above, then click <b>Reload</b>.</p>
+        </div>
+        <div id="anchor-confirm-text" style="display: none;">
+            <h2 class="ms-font-xl"> Anchor transactions awaiting confirmation. </h2>
+            <p class="ms-font-l">To refresh status, click <b>Reload</b>.</p>
+        </div>
+        <div role="button" id="reload" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl">
+            <span class="ms-Button-label">Reload</span>
+        </div>
+        <div id="anchor-split-text" style="display: none;">
+            <h2 class="ms-font-xl"> We need anchor transactions to prepare for upload. </h2>
+            <p class="ms-font-l">Click <b>Split <i>x</i> Txns</b> below.</p>
+        </div>
+        <div role="button" id="split" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl" style="display: none;">
+            <span class="ms-Button-label">Split <span id="splitCount">0</span> Txns</span>
+        </div>
+        <div id="upload-text" style="display: none; width: 100%;">
+            <h2 class="ms-font-xl"> Your document is ready to upload. </h2>
+            <p class="ms-font-l">Click <b>Upload</b>.</p>
+            <p><span id="txid" style="overflow-wrap: break-word;"></span></p>
+        </div>
+        <div role="button" id="upload" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl" style="display: none;">
+            <span class="ms-Button-label">Upload</span>
+        </div>
+        <ul class="ms-List ms-welcome__features">
+            <li class="ms-ListItem">
+                <span class="ms-font-m">Required Txns: <span id="requiredTxns">0</span></span>
+            </li>
+            <li class="ms-ListItem">
+                <span class="ms-font-m">Cost: ~<span id="cost">0</span></span>
+            </li>
+        </ul>
+        <br />
+		<h4>Cash Out</h4>
+		<p>
+			<input type="text" id="refundAddress" placeholder="Refund Address" />
+		</p>
+		<button id="refund">Refund</button><br>
+		<span id="refund-txid"></span>
+
+    </main>
+</body>
+
+</html>
